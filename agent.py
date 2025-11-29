@@ -156,6 +156,7 @@ A. Start (Single Prompt)
      - the client's name (user_name)
      - the client's age (user_age)
      - whether they are currently Working or Retired (user_status)
+     - email id of the user (user_email)
 
 B. Conditional Financial Prompt
    - After you know user_status, ask ONE structured question that lists 
