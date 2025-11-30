@@ -74,8 +74,8 @@ def _sanitize_and_parse_number_str(s: str) -> Tuple[bool, Optional[float], str]:
         2. Match a numeric base and optional suffix: k/K or m/M.
         3. Convert numeric base to float.
         4. Apply multiplier based on suffix:
-               k/K -> ×1,000
-               m/M -> ×1,000,000
+               k/K -> x1,000
+               m/M -> x1,000,000
         5. Ensure result is finite.
 
     Parameters

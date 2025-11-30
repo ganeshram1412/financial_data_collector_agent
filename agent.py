@@ -12,6 +12,7 @@ Primary responsibilities:
        - user_name
        - user_age
        - user_status  ("Working" or "Retired")
+       - user_email
 
     2. Based on user_status, collect **status-dependent financial data**:
        Common across both statuses:
@@ -47,6 +48,7 @@ Primary responsibilities:
              "user_name": <str>,
              "user_age": <int>,
              "user_status": "Working" | "Retired",
+             "user_email": <str>,
              "base_financial_data": {
                  ...validated financial fields...,
                  "has_life_insurance": "Yes" | "No",
@@ -69,8 +71,6 @@ other downstream agents.
 """
 
 import logging
-import os
-from google.genai import types
 from google.adk.agents import LlmAgent
 from google.adk.models.google_llm import Gemini
 from .tools import validate_all_essential_data
@@ -88,14 +88,6 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 logging.info("Starting financial data collector agent (FSO Initializer)")
-
-# Define retry configuration for the underlying model
-retry_config = types.HttpRetryOptions(
-    attempts=5,
-    exp_base=7,
-    initial_delay=1,
-    http_status_codes=[429, 500, 503, 504],
-)
 
 # --- Optimized Agent Instruction (FSO Initializer Focus) ---
 
@@ -225,7 +217,7 @@ Once the tool returns success:
 # --- Agent Definition ---
 financial_data_collector_agent_tool = LlmAgent(
     name="financial_data_collector_agent",
-    model=Gemini(model="gemini-2.5-flash", retry_options=retry_config),
+    model=Gemini(model="gemini-2.5-flash"),
     description=(
         "An empathetic assistant that collects personalized data (Name, Age, Status), "
         "financial data including life and health insurance status, validates it, and "
